@@ -1,11 +1,25 @@
-/* tslint:disable:no-unused-expression object-literal-sort-keys max-classes-per-file no-empty */
 import * as chai from "chai"
 import * as chaiAsPromised from "chai-as-promised"
 import path = require("path");
-import {Pact, Interaction } from "@pact-foundation/pact"
-
+import { Pact } from "@pact-foundation/pact"
 const expect = chai.expect;
 import {Animal, AnimalAPIClient} from "../animal-api/client";
+import axios, {AxiosPromise} from "axios";
+
+import {
+    basicCatObjectRequestInteraction,
+    basicDogObjectRequestInteraction,
+    basicHorseObjectRequestInteraction,
+    basicHumanObjectRequestInteraction, objectManipulatedExampleInteraction
+} from "./expectations/interactions";
+
+import {
+    basicCatObject,
+    basicDogObject,
+    basicHorseObject,
+    basicHumanObject,
+    manipulatedObject
+} from "./expectations/objects";
 
 chai.use(chaiAsPromised);
 
@@ -33,41 +47,73 @@ describe("The Dog API", () => {
 
     afterEach(() => provider.verify());
 
-    describe("get /dogs using builder pattern", () => {
+    describe("get basic Dog object from the API", () => {
         before(() => {
-            const interaction = new Interaction()
-                .given("I request the definition of a dog")
-                .withRequest({
-                    method: "GET",
-                    path: "/dog",
-                    headers: {
-                        Accept: "application/json",
-                    },
-                })
-                .willRespondWith({
-                    status: 200,
-                    headers: {
-                        "Content-Type": "application/json; charset=utf-8",
-                    },
-                    body: {
-                        Type: "Canine",
-                        Legs: 4,
-                        Description: "a domesticated carnivorous mammal that typically has a long snout, an acute sense of smell, non-retractable claws, and a barking, howling, or whining voice."
-                    },
-                });
-
-            return provider.addInteraction(interaction)
+            provider.addInteraction(basicDogObjectRequestInteraction);
+            return provider;
         });
 
-        it("returns the correct response", done => {
+        it("returns the correct response when Dog is requested", done => {
             animalService.getDefinition(Animal.Dog).then((response: any) => {
-                expect(response.data).to.deep.eq({
-                    Type: "Canine",
-                    Legs: 4,
-                    Description: "a domesticated carnivorous mammal that typically has a long snout, an acute sense of smell, non-retractable claws, and a barking, howling, or whining voice."
-                });
+                expect(response.data).to.deep.eq(basicDogObject);
                 done()
             }, done)
-        })
-    })
-})
+        });
+    });
+
+    describe("get basic Cat object from the API", () => {
+        before(() => {
+            provider.addInteraction(basicCatObjectRequestInteraction);
+            return provider;
+        });
+
+        it("returns the correct response when Cat is requested", done => {
+            animalService.getDefinition(Animal.Cat).then((response: any) => {
+                expect(response.data).to.deep.eq(basicCatObject);
+                done()
+            }, done)
+        });
+    });
+
+    describe("get basic Horse object from the API", () => {
+        before(() => {
+            provider.addInteraction(basicHorseObjectRequestInteraction);
+            return provider;
+        });
+
+        it("returns the correct response when Horse is requested", done => {
+            animalService.getDefinition(Animal.Horse).then((response: any) => {
+                expect(response.data).to.deep.eq(basicHorseObject);
+                done()
+            }, done)
+        });
+    });
+
+    describe("get basic Human object from the API", () => {
+        before(() => {
+            provider.addInteraction(basicHumanObjectRequestInteraction);
+            return provider;
+        });
+
+        it("returns the correct response when Human is requested", done => {
+            animalService.getDefinition(Animal.Human).then((response: any) => {
+                expect(response.data).to.deep.eq(basicHumanObject);
+                done()
+            }, done)
+        });
+    });
+
+    describe("get the manipulated object", () => {
+        before(() => {
+            provider.addInteraction(objectManipulatedExampleInteraction);
+            return provider;
+        });
+
+        it("returns the object post manipulation using the state handler", done => {
+            animalService.getManipulatedObject().then((response: any) => {
+                expect(response.data).to.deep.eq(manipulatedObject);
+                done()
+            }, done)
+        });
+    });
+});

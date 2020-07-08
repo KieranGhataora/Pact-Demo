@@ -17,12 +17,20 @@ export class AnimalAPIClient {
     }
 
     public getDefinition = (animal: Animal): AxiosPromise => {
-        console.log("Getting a doG!!!!!!!!!!!!!!!!!!!!!!!!!")
         return axios.request({
             baseURL: `${this.url}:${this.port}`,
             headers: {Accept: "application/json"},
             method: "GET",
             url: `${animal.toString()}`,
+        })
+    };
+
+    public getManipulatedObject = (): AxiosPromise => {
+        return axios.request({
+            baseURL: `${this.url}:${this.port}`,
+            headers: {Accept: "application/json"},
+            method: "GET",
+            url: `manipObject`,
         })
     }
 }

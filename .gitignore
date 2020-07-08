@@ -1,3 +1,7 @@
 
 .idea/
 node_modules
+
+pact-tests/logs/
+
+pact-tests/pacts/

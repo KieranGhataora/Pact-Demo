@@ -1,25 +1,88 @@
-let basicDogObject = {
-    Type: "Canine",
-    Legs: 4,
-    Description: "a domesticated carnivorous mammal that typically has a long snout, an acute sense of smell, non-retractable claws, and a barking, howling, or whining voice."
-};
+import {Interaction} from "@pact-foundation/pact";
+import {basicCatObject, basicDogObject, basicHorseObject, basicHumanObject, manipulatedObject} from "./objects";
 
-let basicCatObject = {
-    Type: "Feline",
-    Legs: 4,
-    Description: "a small domesticated carnivorous mammal with soft fur, a short snout, and retractable claws. It is widely kept as a pet or for catching mice, and many breeds have been developed."
-};
+let basicDogObjectRequestInteraction = new Interaction()
+    .uponReceiving("A request for the basic dog object")
+    .given("Fresh Data Set")
+    .withRequest({
+        method: "GET",
+        path: "/dog",
+        headers: {
+            Accept: "application/json",
+        },
+    })
+    .willRespondWith({
+            status: 200,
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+            },
+            body: basicDogObject,
+        }
+    );
 
-let basicHorseObject = {
-    Type: "Equidae",
-    Legs: 4,
-    Description: "The horse is one of two extant subspecies of Equus ferus. It is an odd-toed ungulate mammal belonging to the taxonomic family Equidae. The horse has evolved over the past 45 to 55 million years from a small multi-toed creature, Eohippus, into the large, single-toed animal of today."
-};
+let basicCatObjectRequestInteraction = new Interaction()
+    .uponReceiving("A request for the basic cat object")
+    .given("Fresh Data Set")
+    .withRequest({
+        method: "GET",
+        path: "/cat",
+        headers: {
+            Accept: "application/json",
+        },
+    })
+    .willRespondWith({
+            status: 200,
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+            },
+            body: basicCatObject,
+        }
+    );
 
-let basicHumanObject = {
-    Type: "Primate",
-    Legs: 2,
-    Description: "Homo sapiens is the only extant human species, all of whose members are of the subspecies Homo sapiens sapiens. The name is Latin for wise man, and was introduced in 1758 by Carl Linnaeus. Extinct species of the genus Homo include Homo erectus and a number of other species."
-};
+let basicHorseObjectRequestInteraction = new Interaction()
+    .uponReceiving("A request for the basic horse object")
+    .given("Fresh Data Set")
+    .withRequest({
+        method: "GET",
+        path: "/horse",
+        headers: {
+            Accept: "application/json",
+        },
+    })
+    .willRespondWith({
+            status: 200,
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+            },
+            body: basicHorseObject,
+        }
+    );
 
-export { basicDogObject, basicCatObject, basicHorseObject, basicHumanObject }
+let basicHumanObjectRequestInteraction = new Interaction()
+    .uponReceiving("A request for the basic human object")
+    .given("Fresh Data Set")
+    .withRequest({
+        method: "GET",
+        path: "/human",
+    })
+    .willRespondWith({
+            status: 200,
+            body: basicHumanObject,
+        }
+    );
+
+let objectManipulatedExampleInteraction = new Interaction()
+    .uponReceiving("A request for the Example Manipulated Object")
+    .given("Object Example Seeded")
+    .withRequest({
+        method: "GET",
+        path: "/manipObject",
+    })
+    .willRespondWith({
+            status: 200,
+            body: manipulatedObject,
+        }
+    );
+
+
+export { basicDogObjectRequestInteraction, basicCatObjectRequestInteraction, basicHorseObjectRequestInteraction, basicHumanObjectRequestInteraction, objectManipulatedExampleInteraction }
