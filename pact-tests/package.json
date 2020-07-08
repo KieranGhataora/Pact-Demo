@@ -1,0 +1,26 @@
+{
+  "name": "pact-poc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test-consumer": "mocha -r ts-node/register **/consumer/**/*.spec.ts --timeout 30000",
+    "test-provider": "mocha -r ts-node/register **/provider/**/*.spec.ts --timeout 30000 --opts ./mocha.opts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@pact-foundation/pact": "^9.11.0",
+    "@types/chai": "^4.2.11",
+    "@types/chai-as-promised": "7.1.0",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.6.8",
+    "axios": "^0.19.0",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^6.2.0",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.3"
+  }
+}
