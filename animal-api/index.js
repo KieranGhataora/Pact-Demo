@@ -42,11 +42,7 @@ app.get('/cat', (req, res) => res.send(cat));
 app.get('/horse', (req, res) => res.send(horse));
 app.get('/human', (req, res) => res.send(human));
 app.get('/manipObject', (req, res) => res.send(manipulatedObject));
-app.post('/manipObject', (req, res) => {
-    console.log(req.body);
-    manipulatedObject = req.body; res.sendStatus(200);
-}
-);
+app.post('/manipObject', (req, res) => { manipulatedObject = req.body; res.sendStatus(200); });
 app.post('/clearManipObject', (req, res) => { manipulatedObject = {} });
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
